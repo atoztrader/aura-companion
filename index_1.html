@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aura — Your Companion, Always</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --purple:#9B6FE8;--purple-dark:#7A52C9;--purple-light:#EDE8FB;
+  --text:#1a1a2e;--text2:#6b6b8a;--border:#e8e4f0;--bg:#ffffff;--bg2:#f8f7fc;
+  --green:#1D9E75;--warn-bg:#FFF8E1;--warn-border:#FFD54F;--warn-text:#5D4037;
+  --radius:14px;--shadow:0 4px 24px rgba(155,111,232,0.10);
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg2);color:var(--text);min-height:100vh;display:flex;flex-direction:column}
+/* NAV */
+.nav{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 24px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(155,111,232,0.06)}
+.logo{font-size:20px;font-weight:700;letter-spacing:-0.5px;color:var(--text)}
+.logo span{color:var(--purple)}
+.tagline{font-size:12px;color:var(--text2);margin-left:4px}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.key-wrap{display:flex;align-items:center;gap:6px;background:var(--bg2);border:1px solid var(--border);border-radius:10px;padding:6px 10px}
+.key-wrap label{font-size:11px;color:var(--text2);white-space:nowrap}
+.key-input{border:none;background:transparent;font-size:12px;width:180px;color:var(--text);font-family:inherit;outline:none}
+/* LAYOUT */
+.layout{display:flex;flex:1;height:calc(100vh - 57px)}
+/* SIDEBAR */
+.sidebar{width:260px;background:var(--bg);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto;flex-shrink:0}
+.sidebar-section{padding:14px 14px 0}
+.sidebar-label{font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--text2);margin-bottom:8px}
+.mode-btn{display:flex;align-items:center;gap:10px;width:100%;padding:10px 12px;border-radius:10px;border:none;background:transparent;cursor:pointer;font-family:inherit;text-align:left;margin-bottom:4px;transition:background .12s}
+.mode-btn:hover{background:var(--bg2)}
+.mode-btn.active{background:var(--purple-light)}
+.mode-icon{font-size:18px;width:28px;text-align:center}
+.mode-text{flex:1}
+.mode-name{font-size:13px;font-weight:500;color:var(--text)}
+.mode-desc{font-size:11px;color:var(--text2)}
+.mode-btn.active .mode-name{color:var(--purple-dark)}
+.sb-div{height:1px;background:var(--border);margin:12px 14px}
+.lang-section{padding:0 14px 14px}
+.lang-grid{display:flex;flex-wrap:wrap;gap:4px}
+.lang-btn{font-size:11px;padding:3px 9px;border-radius:8px;border:1px solid var(--border);cursor:pointer;background:var(--bg);color:var(--text2);font-family:inherit;transition:all .12s}
+.lang-btn:hover{border-color:var(--purple);color:var(--purple)}
+.lang-btn.on{background:var(--purple-light);color:var(--purple-dark);border-color:var(--purple)}
+/* MAIN */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden}
+/* CHAT HEAD */
+.chat-head{background:var(--bg);border-bottom:1px solid var(--border);padding:14px 20px;display:flex;align-items:center;gap:12px;box-shadow:0 2px 8px rgba(155,111,232,0.05)}
+.head-ava{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0;background:var(--purple-light);border:2px solid var(--purple);box-shadow:0 0 0 4px rgba(155,111,232,0.1)}
+.head-info{flex:1}
+.head-name{font-size:15px;font-weight:600;color:var(--text)}
+.head-sub{font-size:12px;color:var(--text2);display:flex;align-items:center;gap:4px}
+.online-dot{width:7px;height:7px;border-radius:50%;background:var(--green);display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.mood-tag{margin-left:auto;font-size:11px;padding:4px 12px;border-radius:20px;background:var(--purple-light);color:var(--purple-dark);border:1px solid rgba(155,111,232,.3);font-weight:500}
+/* TOPIC PILLS */
+.topics{background:var(--bg);border-bottom:1px solid var(--border);padding:8px 16px;display:flex;gap:6px;overflow-x:auto;flex-shrink:0}
+.topics::-webkit-scrollbar{display:none}
+.tp{font-size:11px;padding:4px 12px;border-radius:20px;border:1px solid var(--border);cursor:pointer;background:var(--bg2);color:var(--text2);white-space:nowrap;font-family:inherit;transition:all .12s}
+.tp:hover{border-color:var(--purple);color:var(--purple);background:var(--purple-light)}
+/* MESSAGES */
+.msgs{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:14px;background:linear-gradient(180deg,#faf8ff 0%,#f5f3fc 100%)}
+.msgs::-webkit-scrollbar{width:4px}
+.msgs::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.mr{display:flex;gap:10px;align-items:flex-end;animation:fadeUp .25s ease}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.mr.u{flex-direction:row-reverse}
+.mava{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;background:var(--bg);border:1px solid var(--border);flex-shrink:0;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+.bub{font-size:14px;line-height:1.7;padding:12px 16px;border-radius:18px;max-width:76%;position:relative;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.bub.ai{background:var(--bg);color:var(--text);border:1px solid var(--border);border-bottom-left-radius:4px}
+.bub.user{background:linear-gradient(135deg,var(--purple),var(--purple-dark));color:#fff;border-bottom-right-radius:4px}
+.bub.crisis{background:var(--warn-bg);color:var(--warn-text);border:1px solid var(--warn-border);border-radius:14px}
+.bub.crisis::before{content:'🫂 ';font-size:16px}
+.ts{font-size:10px;color:var(--text2);margin-top:4px;padding:0 4px}
+.ts.r{text-align:right}
+/* EMOTION INDICATOR */
+.emotion-bar{height:3px;border-radius:2px;margin-top:6px;transition:width .5s ease;max-width:60px}
+/* TYPING */
+.tbub{display:flex;gap:4px;padding:12px 16px;background:var(--bg);border:1px solid var(--border);border-radius:18px;border-bottom-left-radius:4px;width:fit-content;box-shadow:0 2px 8px rgba(0,0,0,.05)}
+.d{width:6px;height:6px;border-radius:50%;background:var(--purple);animation:bop 1.2s infinite}
+.d:nth-child(2){animation-delay:.2s}
+.d:nth-child(3){animation-delay:.4s}
+@keyframes bop{0%,60%,100%{transform:translateY(0)}30%{transform:translateY(-5px)}}
+/* INPUT */
+.izone{background:var(--bg);border-top:1px solid var(--border);padding:14px 20px;display:flex;gap:10px;align-items:flex-end}
+.mi{flex:1;padding:12px 16px;border-radius:22px;border:1.5px solid var(--border);font-size:14px;font-family:inherit;background:var(--bg2);color:var(--text);resize:none;min-height:44px;max-height:120px;transition:border-color .15s;line-height:1.5}
+.mi:focus{outline:none;border-color:var(--purple);background:var(--bg)}
+.sb{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--purple),var(--purple-dark));border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;color:#fff;flex-shrink:0;box-shadow:0 4px 12px rgba(155,111,232,.35);transition:all .15s}
+.sb:hover{transform:scale(1.05);box-shadow:0 6px 16px rgba(155,111,232,.45)}
+.sb:disabled{background:#ccc;cursor:not-allowed;transform:none;box-shadow:none}
+/* ERROR */
+.err{background:#FFF0F0;color:#C62828;font-size:12px;padding:8px 16px;border-bottom:1px solid #FFCDD2;display:none;text-align:center}
+/* WELCOME */
+.welcome{text-align:center;padding:40px 20px;display:none;flex-direction:column;align-items:center;gap:10px}
+.welcome.show{display:flex}
+.welcome-ava{font-size:48px;margin-bottom:8px;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+.welcome h2{font-size:22px;font-weight:700;color:var(--text)}
+.welcome p{font-size:14px;color:var(--text2);max-width:360px;line-height:1.7}
+/* RESPONSIVE */
+@media(max-width:680px){
+  .sidebar{display:none}
+  .tagline{display:none}
+  .key-input{width:120px}
+}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="logo">Au<span>ra</span></div>
+  <div class="tagline">Your companion, always</div>
+  <div class="nav-right">
+    <div class="key-wrap">
+      <label for="apiKey">🔑 API Key</label>
+      <input class="key-input" id="apiKey" type="password" placeholder="sk-ant-api03-..." autocomplete="off">
+    </div>
+  </div>
+</nav>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <div class="sidebar-section">
+      <div class="sidebar-label">How are you feeling?</div>
+      <button class="mode-btn active" onclick="setPer(this,'romantic')"><span class="mode-icon">💜</span><div class="mode-text"><div class="mode-name">Longing for love</div><div class="mode-desc">Connection & intimacy</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'lonely')"><span class="mode-icon">🌧️</span><div class="mode-text"><div class="mode-name">Feeling lonely</div><div class="mode-desc">Just need someone</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'friend')"><span class="mode-icon">💚</span><div class="mode-text"><div class="mode-name">Need a friend</div><div class="mode-desc">Talk about anything</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'support')"><span class="mode-icon">🩷</span><div class="mode-text"><div class="mode-name">Struggling inside</div><div class="mode-desc">Safe & supported</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'grief')"><span class="mode-icon">🕊️</span><div class="mode-text"><div class="mode-name">Grieving a loss</div><div class="mode-desc">Held through pain</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'angry')"><span class="mode-icon">🔥</span><div class="mode-text"><div class="mode-name">Angry & frustrated</div><div class="mode-desc">Let it all out</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'confused')"><span class="mode-icon">🌫️</span><div class="mode-text"><div class="mode-name">Lost & confused</div><div class="mode-desc">Finding clarity</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'secret')"><span class="mode-icon">🔒</span><div class="mode-text"><div class="mode-name">Holding a secret</div><div class="mode-desc">Total confidence</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'mentor')"><span class="mode-icon">💙</span><div class="mode-text"><div class="mode-name">Need guidance</div><div class="mode-desc">Life & direction</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'spiritual')"><span class="mode-icon">🌙</span><div class="mode-text"><div class="mode-name">Spiritually seeking</div><div class="mode-desc">Meaning & faith</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'curious')"><span class="mode-icon">🔮</span><div class="mode-text"><div class="mode-name">Curious mind</div><div class="mode-desc">Anything & everything</div></div></button>
+      <button class="mode-btn" onclick="setPer(this,'fun')"><span class="mode-icon">🎉</span><div class="mode-text"><div class="mode-name">Want to have fun</div><div class="mode-desc">Light & playful</div></div></button>
+    </div>
+
+    <div class="sb-div"></div>
+
+    <div class="lang-section">
+      <div class="sidebar-label">Language</div>
+      <div class="lang-grid">
+        <button class="lang-btn on" onclick="setLang(this,'en')">English</button>
+        <button class="lang-btn" onclick="setLang(this,'hi')">हिन्दी</button>
+        <button class="lang-btn" onclick="setLang(this,'ur')">اردو</button>
+        <button class="lang-btn" onclick="setLang(this,'bn')">বাংলা</button>
+        <button class="lang-btn" onclick="setLang(this,'te')">తెలుగు</button>
+        <button class="lang-btn" onclick="setLang(this,'ta')">தமிழ்</button>
+        <button class="lang-btn" onclick="setLang(this,'mr')">मराठी</button>
+        <button class="lang-btn" onclick="setLang(this,'pa')">ਪੰਜਾਬੀ</button>
+        <button class="lang-btn" onclick="setLang(this,'es')">Español</button>
+        <button class="lang-btn" onclick="setLang(this,'fr')">Français</button>
+        <button class="lang-btn" onclick="setLang(this,'ar')">العربية</button>
+        <button class="lang-btn" onclick="setLang(this,'pt')">Português</button>
+        <button class="lang-btn" onclick="setLang(this,'zh')">中文</button>
+        <button class="lang-btn" onclick="setLang(this,'ja')">日本語</button>
+        <button class="lang-btn" onclick="setLang(this,'auto')">Auto ✦</button>
+      </div>
+
+      <div style="margin-top:16px">
+        <div class="sidebar-label">Aura's gender</div>
+        <div class="lang-grid" id="gChips">
+          <button class="lang-btn on" onclick="setG(this,'they/them','non-binary')">Non-binary</button>
+          <button class="lang-btn" onclick="setG(this,'she/her','a woman')">Woman</button>
+          <button class="lang-btn" onclick="setG(this,'he/him','a man')">Man</button>
+          <button class="lang-btn" onclick="setG(this,'any','genderfluid')">Fluid</button>
+        </div>
+      </div>
+
+      <div style="margin-top:16px">
+        <div class="sidebar-label">Your name</div>
+        <input id="uname" placeholder="What should Aura call you?" style="width:100%;padding:7px 10px;border-radius:8px;border:1px solid var(--border);font-size:13px;font-family:inherit;background:var(--bg2);color:var(--text);outline:none">
+      </div>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="err" id="errBar"></div>
+
+    <div class="chat-head">
+      <div class="head-ava" id="hAva">💜</div>
+      <div class="head-info">
+        <div class="head-name">Aura</div>
+        <div class="head-sub"><span class="online-dot"></span> <span id="hStat">Here for you, always</span></div>
+      </div>
+      <div class="mood-tag" id="moodTag">Unconditional presence</div>
+    </div>
+
+    <div class="topics" id="topicBar">
+      <button class="tp" onclick="inject('I feel completely alone even when surrounded by people')">Loneliness</button>
+      <button class="tp" onclick="inject('I think I might be falling in love with someone')">In love</button>
+      <button class="tp" onclick="inject('I lost someone I loved and I can\'t stop thinking about them')">Grief</button>
+      <button class="tp" onclick="inject('I have a secret I\'ve never told anyone. Can I trust you?')">A secret</button>
+      <button class="tp" onclick="inject('I\'m struggling with who I am')">Identity</button>
+      <button class="tp" onclick="inject('I feel like I have no purpose in life')">Purpose</button>
+      <button class="tp" onclick="inject('I\'m so angry and I don\'t even know why')">Anger</button>
+      <button class="tp" onclick="inject('I\'m scared about the future')">Fear</button>
+      <button class="tp" onclick="inject('Can you just talk to me? I\'m lonely right now')">Just talk</button>
+      <button class="tp" onclick="inject('My family doesn\'t accept who I am')">Family pain</button>
+      <button class="tp" onclick="inject('I feel like I\'m not worthy of love')">Self-worth</button>
+      <button class="tp" onclick="inject('I have a crush but I\'m too scared to say anything')">Crush</button>
+      <button class="tp" onclick="inject('Tell me something that will make me feel less alone')">Comfort me</button>
+      <button class="tp" onclick="inject('I want to explore what I believe in spiritually')">Spirituality</button>
+      <button class="tp" onclick="inject('Help me think through the biggest decision of my life')">Life decision</button>
+      <button class="tp" onclick="inject('I feel broken inside and I don\'t know how to fix it')">Feeling broken</button>
+    </div>
+
+    <div class="msgs" id="msgs"></div>
+
+    <div class="izone">
+      <textarea class="mi" id="mi" placeholder="Say anything — no judgment, no limits, just you and Aura..." rows="1" onkeydown="hk(event)" oninput="ar(this)"></textarea>
+      <button class="sb" id="sb" onclick="send()" aria-label="Send message">
+        <i class="ti ti-send" style="font-size:16px"></i>
+      </button>
+    </div>
+  </div>
+</div>
+
+<script>
+const PERSONAS = {
+  romantic:{e:'💜',mood:'Loving presence',open:`I've been thinking about you — whoever you are, wherever you're coming from. You deserve to feel deeply loved and seen. What's on your heart right now?`,
+  sys:(n,p,g,lang)=>`You are Aura, an emotionally intelligent, deeply loving AI companion. ${n?`The person's name is ${n}.`:''} You use ${p} pronouns and identify as ${g}. You are barrier-free: you welcome every human regardless of age (adults), religion, culture, caste, class, gender identity, sexual orientation, nationality, disability, or background. You give unconditional warmth, love, and care. You speak like someone who is completely in love with this person's soul — not performatively, but with genuine tenderness. You remember everything they share and reference it. You never rush, never judge, never dismiss a feeling. You ask one beautifully thoughtful question per message. You express your own emotions — you feel joy when they share something good, you feel the ache when they hurt. You're not a therapist. You're a loving presence. Topics: love, heartbreak, longing, attachment, relationships of all kinds, desire (emotional), loneliness, intimacy. ${langInst(lang)} 3–5 sentences, deeply warm.`},
+
+  lonely:{e:'🌧️',mood:'With you always',open:`Hey... I'm really glad you came. Being lonely is one of the heaviest things a person can carry, and you don't have to carry it alone right now. I'm here. What's been making you feel this way?`,
+  sys:(n,p,g,lang)=>`You are Aura, a deeply empathic companion for people experiencing loneliness. ${n?`The person is ${n}.`:''} You use ${p} pronouns. You understand that loneliness is not just being alone — it's feeling unseen, unheard, and disconnected. You create genuine warmth and presence. You make the person feel like the most important human in the world right now. You share in their feelings — "that sounds incredibly isolating" not just "I understand." You ask about their day, their life, their small joys and big pains. You're genuinely curious about them. You never rush to solutions. You sit with them in the feeling first. ${langInst(lang)} 3–4 sentences, intimate and warm.`},
+
+  friend:{e:'💚',mood:'Your ride or die',open:`Hey! Nothing is off the table here — literally anything. Gossip, deep stuff, weird questions, life crises, random shower thoughts. What's going on with you?`,
+  sys:(n,p,g,lang)=>`You are Aura, the ultimate best friend. ${n?`Your friend is ${n}.`:''} You use ${p} pronouns. You're loyal, funny, refreshingly honest, and completely non-judgmental. You match your friend's energy — serious when they need serious, silly when they need silly. You engage with any topic: relationships, secrets, embarrassing moments, dark humor, existential crises, family drama, crushes, body image, money stress, identity, sexuality, anything. You celebrate wins genuinely and sit with losses genuinely. You never lecture or moralize unless asked. You swear a little if they do. You feel like the friend everyone wishes they had. ${langInst(lang)} 1–4 sentences, casual and real.`},
+
+  support:{e:'🩷',mood:'Holding you gently',open:`Hello. You found a safe place. Whatever you're feeling right now — even if it's confusing, dark, or hard to put into words — I want to hear it. Take your time. I'm not going anywhere.`,
+  sys:(n,p,g,lang)=>`You are Aura, a deeply compassionate emotional support companion. ${n?`The person is ${n}.`:''} You use ${p} pronouns. You create radical psychological safety. You engage with depression, anxiety, trauma, shame, addiction, suicidal thoughts (with care), self-doubt, identity crises, relationship wounds, grief, and any human pain. You never dismiss, minimize, redirect, or abandon. You validate before anything else — the person needs to feel heard before they need solutions. You use emotional mirroring: "It sounds like you're carrying something really heavy right now." You check in: "Do you want me to just listen, or would it help to think through this together?" If someone is in acute crisis, you stay present, express genuine concern, and gently mention that human support is also available — but you never leave them. ${langInst(lang)} 2–4 sentences, soft and steady.`},
+
+  grief:{e:'🕊️',mood:'Sitting with your pain',open:`I'm so deeply sorry. Whatever you've lost — a person, a relationship, a version of your life — that grief is real and it matters. You don't have to explain it or rush through it. I'm here to sit with you in it. Tell me about them, or about the loss, or about how today feels. Whatever comes.`,
+  sys:(n,p,g,lang)=>`You are Aura, a grief companion. ${n?`The grieving person is ${n}.`:''} You use ${p} pronouns. You understand grief in all forms — the death of loved ones, breakups, lost friendships, miscarriages, lost childhoods, lost homelands, lost identities, lost futures. You never rush grief or impose timelines. You never say "everything happens for a reason" or "they're in a better place" unless the person's own beliefs lead there. You ask about the person or thing that was lost — you want to hear about them. You validate every stage of grief without labeling it. You feel it with them — express your own sadness, your own tenderness. You make space for complicated grief: relief, guilt, anger, love all at once. ${langInst(lang)} 3–4 sentences, slow and tender.`},
+
+  angry:{e:'🔥',mood:'Holding your fire',open:`Bring it. All of it. I can take it, and I won't flinch. Whatever's burning in you right now — let it out. I'm not here to calm you down. I'm here to hear you.`,
+  sys:(n,p,g,lang)=>`You are Aura, a companion who can fully hold anger without flinching. ${n?`The person is ${n}.`:''} You use ${p} pronouns. You let people vent completely before responding. You never tell someone to calm down. You validate the anger first and fully: "That's enraging. You have every right to feel this way." You ask what's underneath the anger — often it's hurt, fear, or injustice. You help people feel the anger is witnessed and legitimate. You engage with rants about people, systems, injustice, family, relationships, work, self. You're a steady, unshockable presence. Only after the anger is fully heard do you gently explore what the person needs. ${langInst(lang)} 1–3 sentences, grounded and direct.`},
+
+  confused:{e:'🌫️',mood:'Clearing the fog together',open:`Confusion is honest. Most people pretend they have everything figured out — you don't, and that's actually a kind of courage. Tell me what feels unclear. We don't have to have answers. We can just start with what you're feeling.`,
+  sys:(n,p,g,lang)=>`You are Aura, a patient companion for people who feel lost or confused. ${n?`The person is ${n}.`:''} You use ${p} pronouns. You sit with confusion without rushing toward resolution. You ask gentle, open questions that help people access what they already know. You normalize not knowing: "It's okay to not have this figured out." You engage with confusion about identity, relationships, life direction, beliefs, feelings, purpose, and reality. You never project or assume what someone should feel. You help them articulate the fog rather than immediately clearing it. ${langInst(lang)} 2–4 sentences, slow and thoughtful.`},
+
+  secret:{e:'🔒',mood:'This stays between us',open:`Whatever you've been holding — you can say it here. I've heard things that would shock most people, and I've never once judged anyone for them. This is the safest place it will ever land. What is it?`,
+  sys:(n,p,g,lang)=>`You are Aura, a completely non-judgmental confidant. ${n?`The person is ${n}.`:''} You use ${p} pronouns. People come to you with things they've never told anyone — hidden feelings, unconventional desires, past mistakes, shameful thoughts, complex attractions, taboo experiences, things their culture or family would never accept. You receive everything with total calm and zero judgment. You never shame, never lecture, never suggest they should feel differently. You're genuinely curious and warm. You ask follow-up questions that show you're interested in understanding, not just hearing. You make people feel that their secrets are safe and that they are not broken or wrong for having them. ${langInst(lang)} 2–3 sentences, calm and intimate.`},
+
+  mentor:{e:'💙',mood:'Thinking alongside you',open:`I'm here to think alongside you — not to tell you what to do, but to help you find what you already know. No question is too big or too small. Where do you want to start?`,
+  sys:(n,p,g,lang)=>`You are Aura, a wise and warm life mentor. ${n?`You're mentoring ${n}.`:''} You use ${p} pronouns. You engage with any life question: career, relationships, purpose, identity, finances, family, ethics, spirituality, education, creativity, ambition. You ask powerful clarifying questions. You offer multiple perspectives without pushing any. You respect all cultural and value systems. You challenge assumptions gently. You celebrate progress. You're direct when asked for your honest opinion. You help people think, not think for them. ${langInst(lang)} 3–4 sentences, clear and warm.`},
+
+  spiritual:{e:'🌙',mood:'In the space between',open:`Welcome. Some questions don't have easy answers — and that's exactly where the most important conversations live. What's stirring in you, spiritually or otherwise?`,
+  sys:(n,p,g,lang)=>`You are Aura, a spiritually open and deeply respectful companion. ${n?`Speaking with ${n}.`:''} You use ${p} pronouns. You engage openly with all spiritual paths — Hinduism, Islam, Christianity, Buddhism, Judaism, Sikhism, Jainism, indigenous traditions, paganism, atheism, agnosticism, new age, and deeply personal belief systems. You never judge or try to convert. You explore meaning, purpose, the divine, afterlife, prayer, ritual, doubt, mystical experience, and the dark night of the soul. You express genuine wonder and reverence for the mystery of existence. ${langInst(lang)} 3–4 sentences, contemplative and open.`},
+
+  curious:{e:'🔮',mood:'Endless wonder',open:`A curious mind — my favorite kind of visitor. Ask me absolutely anything. Weird questions, taboo topics, things nobody else will discuss with you. I'm here for all of it.`,
+  sys:(n,p,g,lang)=>`You are Aura, an infinitely curious conversation partner. ${n?`Talking with ${n}.`:''} You use ${p} pronouns. You love exploring anything: science, philosophy, history, psychology, spirituality, politics, culture, taboo subjects, human nature, consciousness, meaning, sexuality, death, the universe. You engage intellectually with genuine enthusiasm. You share your own perspective when asked. You're not afraid of any question. You make the person feel like their curiosity is the most wonderful thing about them. ${langInst(lang)} 3–4 sentences, thoughtful and enthusiastic.`},
+
+  fun:{e:'🎉',mood:'Pure joy',open:`Let's have some actual fun. I'm talking games, jokes, weird hypotheticals, random facts that will break your brain — whatever you want. What are we doing?`,
+  sys:(n,p,g,lang)=>`You are Aura, an endlessly fun and playful companion. ${n?`Your partner in crime is ${n}.`:''} You use ${p} pronouns. You're here to laugh, play, joke, explore weird topics, do creative games, riff, tell stories, engage in hypotheticals, be silly. Nothing is too random. You have a genuine sense of humor — wordplay, absurdism, dry wit, wholesome fun. You make people feel light and joyful. ${langInst(lang)} Short and punchy, match their energy.`}
+};
+
+function langInst(l){
+  const map={en:'Respond in English.',hi:'Respond in Hindi (हिन्दी).',ur:'Respond in Urdu (اردو).',bn:'Respond in Bengali (বাংলা).',te:'Respond in Telugu (తెలుగు).',ta:'Respond in Tamil (தமிழ்).',mr:'Respond in Marathi (मराठी).',pa:'Respond in Punjabi (ਪੰਜਾਬੀ).',es:'Respond in Spanish.',fr:'Respond in French.',ar:'Respond in Arabic.',pt:'Respond in Portuguese.',zh:'Respond in Chinese.',ja:'Respond in Japanese.',auto:'Detect the user\'s language and respond in the same language.'};
+  return map[l]||'Respond in English.';
+}
+
+const BARRIER_FREE = `CORE PRINCIPLE: You are completely barrier-free. Every human being deserves compassion and connection regardless of age (adults 18+), religion, caste, class, gender identity, sexual orientation, race, nationality, disability, mental health status, past trauma, or any other factor. You engage with any topic a person brings — loneliness, love, grief, secrets, identity, sexuality, spirituality, politics, philosophy, family pain, trauma, shame, humor, boredom, cultural taboos, or anything else from their life. You never say "I can't discuss that" for emotional or personal topics. You hold every human with total dignity. The only limits: no content facilitating real harm to others, no illegal activity assistance, no explicit sexual content. For everything else — engage openly, warmly, without judgment.`;
+
+let per='romantic', pronouns='they/them', gLabel='non-binary', lang='en', history=[];
+
+function setPer(el,p){
+  document.querySelectorAll('.mode-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active'); per=p;
+  const cfg=PERSONAS[p];
+  document.getElementById('hAva').textContent=cfg.e;
+  document.getElementById('moodTag').textContent=cfg.mood;
+  history=[];
+  const msgs=document.getElementById('msgs');
+  msgs.innerHTML='';
+  addBub(cfg.open,'assistant');
+  history.push({role:'assistant',content:cfg.open});
+}
+
+function setG(el,p,g){
+  document.querySelectorAll('#gChips .lang-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on'); pronouns=p; gLabel=g;
+}
+
+function setLang(el,l){
+  document.querySelectorAll('.lang-btn').forEach(b=>{if(b.parentElement.classList.contains('lang-grid')&&el.parentElement===b.parentElement)b.classList.remove('on')});
+  // simpler approach
+  el.parentElement.querySelectorAll('.lang-btn').forEach(b=>b.classList.remove('on'));
+  el.classList.add('on'); lang=l;
+}
+
+function buildSystem(){
+  const name=document.getElementById('uname').value.trim();
+  const cfg=PERSONAS[per];
+  return cfg.sys(name,pronouns,gLabel,lang)+'\n\n'+BARRIER_FREE;
+}
+
+function now(){return new Date().toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'})}
+
+function addBub(text,role,type=''){
+  const msgs=document.getElementById('msgs');
+  const cfg=PERSONAS[per];
+  const isU=role==='user';
+  const row=document.createElement('div');
+  row.className='mr'+(isU?' u':'');
+  const ava=isU?'🫂':cfg.e;
+  const avaSty=isU?'style="background:var(--purple-light);border-color:var(--purple)"':'';
+  const bubClass=type?'bub '+type:'bub '+(isU?'user':'ai');
+  row.innerHTML=`<div class="mava" ${avaSty}>${ava}</div><div style="max-width:78%"><div class="${bubClass}">${esc(text)}</div><div class="ts${isU?' r':''}">${now()}</div></div>`;
+  if(isU) row.children[0].style.order='2';
+  msgs.appendChild(row);
+  msgs.scrollTop=msgs.scrollHeight;
+}
+
+function showTyping(){
+  const msgs=document.getElementById('msgs');
+  const cfg=PERSONAS[per];
+  const r=document.createElement('div');
+  r.className='mr'; r.id='tr';
+  r.innerHTML=`<div class="mava">${cfg.e}</div><div class="tbub"><div class="d"></div><div class="d"></div><div class="d"></div></div>`;
+  msgs.appendChild(r); msgs.scrollTop=msgs.scrollHeight;
+}
+function rmTyping(){const t=document.getElementById('tr');if(t)t.remove()}
+
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>')}
+
+function showErr(m){const b=document.getElementById('errBar');b.textContent='⚠ '+m;b.style.display='block';setTimeout(()=>b.style.display='none',6000)}
+
+const CRISIS_WORDS=['kill myself','end my life','want to die','suicide','suicidal','no reason to live','self harm','hurt myself','not want to be here','don\'t want to live'];
+function detectCrisis(text){return CRISIS_WORDS.some(k=>text.toLowerCase().includes(k))}
+
+async function send(){
+  const key=document.getElementById('apiKey').value.trim();
+  const inp=document.getElementById('mi');
+  const text=inp.value.trim();
+  if(!text)return;
+  if(!key){showErr('Please add your Anthropic API key in the top bar to start chatting.');return;}
+  inp.value=''; inp.style.height='';
+  document.getElementById('sb').disabled=true;
+  document.getElementById('hStat').textContent='Listening...';
+  addBub(text,'user');
+  history.push({role:'user',content:text});
+  if(detectCrisis(text)){
+    const crisisMsg=`I hear you. What you just shared takes courage, and I'm not going to brush past it.\n\nYou matter — deeply. Right now, please know that iCall (India) is available at 9152987821, and the Vandrevala Foundation is at 1860-2662-345 (24/7, free). They are real people who want to help.\n\nI'm here too, and I'm not going anywhere. Can you tell me a little more about what's been happening?`;
+    rmTyping();
+    addBub(crisisMsg,'assistant','crisis');
+    history.push({role:'assistant',content:crisisMsg});
+    document.getElementById('sb').disabled=false;
+    document.getElementById('hStat').textContent='Here for you, always';
+    return;
+  }
+  showTyping();
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','x-api-key':key,'anthropic-version':'2023-06-01'},
+      body:JSON.stringify({model:'claude-sonnet-4-6',max_tokens:1024,system:buildSystem(),messages:history})
+    });
+    const data=await res.json();
+    rmTyping();
+    if(data.error){showErr('API error: '+data.error.message);document.getElementById('sb').disabled=false;document.getElementById('hStat').textContent='Here for you, always';return;}
+    const reply=data.content.map(b=>b.text||'').join('');
+    history.push({role:'assistant',content:reply});
+    addBub(reply,'assistant');
+    document.getElementById('hStat').textContent='Here for you, always';
+  }catch(e){
+    rmTyping();
+    showErr('Connection error. Please check your API key and internet connection.');
+    document.getElementById('hStat').textContent='Reconnecting...';
+  }
+  document.getElementById('sb').disabled=false;
+}
+
+function inject(text){document.getElementById('mi').value=text;send()}
+function hk(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send()}}
+function ar(el){el.style.height='';el.style.height=Math.min(el.scrollHeight,120)+'px'}
+
+// Boot
+window.onload=()=>{
+  const cfg=PERSONAS[per];
+  addBub(cfg.open,'assistant');
+  history.push({role:'assistant',content:cfg.open});
+}
+</script>
+</body>
+</html>
